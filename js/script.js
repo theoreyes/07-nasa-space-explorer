@@ -1,5 +1,4 @@
-// Shhh don't read this D:
-const key = "GAjl0E5QIUaSmSdQQvyBHNJHKfTO34h0DyLa6p0N";
+const key = "DEMO_KEY";
 
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
