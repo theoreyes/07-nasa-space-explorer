@@ -1,4 +1,4 @@
-const key = "DEMO_KEY";
+const key = "GAjl0E5QIUaSmSdQQvyBHNJHKfTO34h0DyLa6p0N";
 
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
@@ -77,12 +77,22 @@ function generateAPODHtml(apodData) {
     return galleryContent;
 }
 
-// Responsible for displaying modal containing info on selected item
+// Responsible for generating modal containing info on selected item
 function displayModal(item) {
+    const modalBg = document.getElementById('modalBg');
     const modal = document.getElementById('galleryModal');
     const modalContent = document.getElementById('modalContent');
     modalContent.innerHTML = '';
-    // TODO: Add exit modal button here
+    // Adds modal close button & event listener
+    closeModalBtn = document.createElement('button');
+    closeModalBtn.id = "closeModalBtn";
+    closeModalBtn.innerHTML = 'X';
+    closeModalBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+        modalBg.style.display = 'none';
+        modalContent.innerHTML = '';
+    })
+    modalContent.appendChild(closeModalBtn);
     console.log(item);
     // Adds image/iframe to modal content
     if (item.querySelector('img') !== null) {
@@ -113,6 +123,7 @@ function displayModal(item) {
     modalContent.appendChild(info);
     modal.style.display = 'flex';
     modal.style.direction = 'column';
+    modalBg.style.display = 'flex';
 }
 
 // Displays space fact to screen

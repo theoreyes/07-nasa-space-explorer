@@ -74,18 +74,6 @@ button:hover {
   background-color: #bfbfbf;
 }
 
-/* Stack horizontally on wider screens */
-@media (min-width: 600px) {
-  .filters {
-    flex-direction: row;
-    padding: 0;
-  }
-  
-  input[type="date"],
-  button {
-    width: auto;
-  }
-}
 
 /* Gallery flex container */
 .gallery {
@@ -99,6 +87,7 @@ button:hover {
 .contentTitle {
   font-family: "Public Sans";
   margin-top: 8px;
+  color: #212121;
 }
 
 .contentDate {
@@ -126,15 +115,6 @@ button:hover {
   cursor: pointer;
 }
 
-/* Three columns on wider screens */
-@media (min-width: 1000px) {
-  .gallery-item {
-    flex: 0 1 31%;
-  }
-  #galleryModal img {
-    max-width: 60vw;
-  }
-}
 
 .gallery-item img {
   width: 100%;
@@ -146,6 +126,7 @@ button:hover {
 .gallery-item p {
   padding: 6px 0px;
   font-size: 14px;
+  color: #212121;
 }
 
 /* Placeholder content */
@@ -166,6 +147,7 @@ button:hover {
   font-size: 1.3em;
   text-align: center;
   max-width: 600px;
+  color: #666;
 }
 
 #galleryModal {
@@ -173,21 +155,89 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 2;
   position: fixed;
   background: white;
   padding: 10px;
   border: 1px solid black;
-  border-radius: 5px;
-  width: 80vw;
+  border-radius: 10px;
+  width: 86vw;
   height: 80vh;
   overflow: auto;
 }
 
 #galleryModal img {
   display: block;
-  max-width: 70vw;
+  max-width: 94%;
   margin: 0 auto;
+  margin-top: 59px;
   overflow: auto;
 }
 
+#galleryModal::-webkit-scrollbar {
+  width: 10px;
+}
+
+#galleryModal iframe {
+  aspect-ratio: 16 / 9;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 59px;
+  overflow: auto;
+}
+
+#modalBg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1
+}
+
+#closeModalBtn {
+  position: absolute;
+  top: 2%;
+  right: 5%;
+  font-size: 1.2em;
+  color: #666;
+  border-radius: 50%;
+  padding: 6px 12px;
+  width: auto;
+  background-color: #f2f2f2;
+}
+
+#closeModalBtn:hover {
+  background-color: #d3d3d3;
+}
+
+
+/* Three columns on wider screens */
+@media (min-width: 1000px) {
+  .gallery-item {
+    flex: 0 1 31%;
+  }
+  #galleryModal {
+    max-width: 700px;
+  }
+}
+
+/* Stack horizontally on wider screens */
+@media (min-width: 600px) {
+  .filters {
+    flex-direction: row;
+    padding: 0;
+  }
+  
+  input[type="date"],
+  button {
+    width: auto;
+  }
+
+}
