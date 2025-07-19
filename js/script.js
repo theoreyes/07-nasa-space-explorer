@@ -1,5 +1,4 @@
-// Shhh don't read this D:
-const key = "GAjl0E5QIUaSmSdQQvyBHNJHKfTO34h0DyLa6p0N";
+const key = "DEMO_KEY";
 
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
@@ -27,6 +26,21 @@ async function getApodData() {
     }
 }
 
+function waitForImagesToLoad(images) {
+    const imgLoadPromises = images.map(img => {
+        if (img.complete && img.naturalHeight !== 0) {
+            return Promise.resolve();
+        } else {
+            return new Promise(resolve => {
+                img.addEventListener("load", resolve, {once: true});
+                img.addEventListener("error", resolve, {once: true});
+            });
+        }
+    });
+    return Promise.all(imgLoadPromises);
+}
+
+// TODO: Re-write so the event listener doesn't need to be async?
 // Adds event listener to grab APOD images when button is pressed
 document.getElementById('getApodDataBtn').addEventListener('click', async function () {
     apodData = await getApodData();
@@ -74,7 +88,11 @@ document.getElementById('getApodDataBtn').addEventListener('click', async functi
         }
 
         // TODO: Wait here for all images to load
+        const images = galleryContent.map(element => element.querySelector('img'))
+                       .filter(img => img !== null); // Avoids grabbing iframes
+        const imgLoadPromise = await waitForImagesToLoad(images);
 
+        // Inserts content to DOM
         gallery.innerHTML = "";
         for (let i = 0; i < length; i++) {
             gallery.appendChild(galleryContent[i]);
