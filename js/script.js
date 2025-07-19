@@ -51,7 +51,6 @@ function generateAPODHtml(apodData) {
         if (apodData[i].media_type === "image") {
             let itemImage = document.createElement('img');
             itemImage.src = apodData[i].url;
-            itemImage.setAttribute('data-hdurl', apodData[i].hdurl);
             item.appendChild(itemImage);
         } else {
             let itemVideo = document.createElement('iframe');
@@ -68,10 +67,52 @@ function generateAPODHtml(apodData) {
         itemDate.classList.add('contentDate');
         itemDate.textContent = apodData[i].date;
         item.appendChild(itemDate);
+        // Adds explanation info to element
+        item.dataset.info = apodData[i].explanation;
+        // Adds event listener for modal view of the gallery item
+        item.addEventListener('click', () => displayModal(item));
         // Adds item div to array, to be inserted to DOM at later point
         galleryContent.push(item);
     }
     return galleryContent;
+}
+
+// Responsible for displaying modal containing info on selected item
+function displayModal(item) {
+    const modal = document.getElementById('galleryModal');
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = '';
+    // TODO: Add exit modal button here
+    console.log(item);
+    // Adds image/iframe to modal content
+    if (item.querySelector('img') !== null) {
+        const image = document.createElement('img');
+        image.classList.add('modalImage');
+        image.src = item.children[0].src;
+        modalContent.appendChild(image);
+    } else {
+        const video = document.createElement('iframe')
+        video.classList.add('modalVideo');
+        video.src = item.children[0].src;
+        modalContent.appendChild(video);
+    }
+    // Adds title
+    const title = document.createElement('h2');
+    title.classList.add('modalTitle');
+    title.textContent = item.children[1].textContent;
+    modalContent.appendChild(title);
+    // Adds date
+    const date = document.createElement('p');
+    date.classList.add('modalDate');
+    date.textContent = item.children[2].textContent;
+    modalContent.appendChild(date);
+    // Adds explanation info
+    const info = document.createElement('p');
+    info.classList.add('modalInfo');
+    info.textContent = `${item.dataset.info}`;
+    modalContent.appendChild(info);
+    modal.style.display = 'flex';
+    modal.style.direction = 'column';
 }
 
 // Displays space fact to screen
@@ -92,8 +133,6 @@ document.getElementById('getApodDataBtn').addEventListener('click', async functi
     if (apodData) {
         // Generate HTML for the APOD entries
         const galleryContent = generateAPODHtml(apodData);
-        console.log("Reached this point");
-        console.log(galleryContent);
         // Wait to insert until all images are loaded
         const images = galleryContent.map(element => element.querySelector('img'))
                        .filter(img => img !== null); // Avoids grabbing iframes
