@@ -3,6 +3,7 @@ const key = "DEMO_KEY";
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
 const endInput = document.getElementById('endDate');
+
 const gallery = document.getElementById('gallery')
 let apodData = null;
 
@@ -24,7 +25,7 @@ async function getApodData() {
     }
 }
 
-// Waits for all images to load, used to improve UX
+// Waits for all images to load
 function waitForImagesToLoad(images) {
     const imgLoadPromises = images.map(img => {
         if (img.complete && img.naturalHeight !== 0) {
@@ -39,12 +40,13 @@ function waitForImagesToLoad(images) {
     return Promise.all(imgLoadPromises);
 }
 
+// Generates HTML content from APOD data
 function generateAPODHtml(apodData) {
     let length = apodData.length;
     const galleryContent = [];
     for (let i = 0; i < length; i++) {
         let item = document.createElement('div');
-        item.classList.add('contentDiv');
+        item.classList.add('gallery-item');
         // Adds content, either img/iframe
         if (apodData[i].media_type === "image") {
             let itemImage = document.createElement('img');
@@ -72,6 +74,7 @@ function generateAPODHtml(apodData) {
     return galleryContent;
 }
 
+// Displays space fact to screen
 function displayLoadScreen() {
     gallery.innerHTML = "";
     const spaceFact = document.createElement('p');
@@ -82,10 +85,10 @@ function displayLoadScreen() {
 
 // Adds event listener to fetch and display APOD entries when button is pressed
 document.getElementById('getApodDataBtn').addEventListener('click', async function () {
+    // Display space fact while entries and images load
+    displayLoadScreen();
     // Retrieves APOD data
     apodData = await getApodData();
-    // Display space fact while images load
-    displayLoadScreen();
     if (apodData) {
         // Generate HTML for the APOD entries
         const galleryContent = generateAPODHtml(apodData);
