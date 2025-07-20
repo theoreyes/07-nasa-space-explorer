@@ -1,9 +1,8 @@
-const key = "DEMO_KEY";
+const key = "GAjl0E5QIUaSmSdQQvyBHNJHKfTO34h0DyLa6p0N";
 
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
 const endInput = document.getElementById('endDate');
-
 const gallery = document.getElementById('gallery')
 let apodData = null;
 
@@ -40,6 +39,13 @@ function waitForImagesToLoad(images) {
     return Promise.all(imgLoadPromises);
 }
 
+function pauseAllVideos() {
+  const iframes = document.querySelectorAll('.video');
+  iframes.forEach((iframe) => {
+    iframe.pauseVideo();
+  });
+}
+
 // Generates HTML content from APOD data
 function generateAPODHtml(apodData) {
     let length = apodData.length;
@@ -54,7 +60,9 @@ function generateAPODHtml(apodData) {
             item.appendChild(itemImage);
         } else {
             let itemVideo = document.createElement('iframe');
-            itemVideo.src = apodData[i].url;
+            itemVideo.src = `${apodData[i].url}?enablejsapi=1`;
+            itemVideo.classList.add('video');
+            console.log(itemVideo.src);
             item.appendChild(itemVideo);
         }
         // Adds title info
@@ -82,20 +90,35 @@ function getScrollbarWidth() {
 }
 
 function disableBodyScroll() {
-  const scrollBarWidth = getScrollbarWidth();
+  const scrollbarWidth = getScrollbarWidth();
   document.body.classList.add('modal-open');
-  if (scrollBarWidth > 0) {
-    document.body.style.paddingRight = `${scrollBarWidth}px`;
-  }
+  document.body.style.overflowY = 'hidden';
+  document.body.style.marginRight = `${scrollbarWidth}px`;
 }
 
 function enableBodyScroll() {
   document.body.classList.remove('modal-open');
-  document.body.style.paddingRight = '';
+  document.body.style.overflowY = '';
+  document.body.style.marginRight = '';
+}
+
+function pauseAllVideos() {
+    const videos = document.querySelectorAll('iframe');
+    videos.forEach((video) => {
+        video.contentWindow.postMessage(
+            JSON.stringify({
+                event: 'command',
+                func: 'pauseVideo',
+                args: []
+            }),
+            '*'
+        )
+    })
 }
 
 // Responsible for generating modal containing info on selected item
 function displayModal(item) {
+    pauseAllVideos();
     const modalBg = document.getElementById('modalBg');
     const modal = document.getElementById('galleryModal');
     const modalContent = document.getElementById('modalContent');
