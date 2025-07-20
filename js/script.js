@@ -41,6 +41,7 @@ function waitForImagesToLoad(images) {
 
 function pauseAllVideos() {
   const iframes = document.querySelectorAll('.video');
+  console.log(iframes);
   iframes.forEach((iframe) => {
     iframe.pauseVideo();
   });
