@@ -175,6 +175,9 @@ button:hover {
 
 #galleryModal iframe {
   aspect-ratio: 16 / 9;
+  width: 94%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 iframe {
@@ -182,7 +185,6 @@ iframe {
   width: 100%;
   height: auto;
   margin: 0 auto;
-  margin-top: 59px;
   overflow: auto;
 }
 
