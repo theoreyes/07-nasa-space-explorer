@@ -39,14 +39,6 @@ function waitForImagesToLoad(images) {
     return Promise.all(imgLoadPromises);
 }
 
-function pauseAllVideos() {
-  const iframes = document.querySelectorAll('.video');
-  console.log(iframes);
-  iframes.forEach((iframe) => {
-    iframe.pauseVideo();
-  });
-}
-
 // Generates HTML content from APOD data
 function generateAPODHtml(apodData) {
     let length = apodData.length;
