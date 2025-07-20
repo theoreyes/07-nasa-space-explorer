@@ -1,4 +1,4 @@
-const key = "GAjl0E5QIUaSmSdQQvyBHNJHKfTO34h0DyLa6p0N";
+const key = "DEMO_KEY";
 
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
@@ -77,11 +77,29 @@ function generateAPODHtml(apodData) {
     return galleryContent;
 }
 
+function getScrollbarWidth() {
+  return (window.innerWidth - document.documentElement.clientWidth);
+}
+
+function disableBodyScroll() {
+  const scrollBarWidth = getScrollbarWidth();
+  document.body.classList.add('modal-open');
+  if (scrollBarWidth > 0) {
+    document.body.style.paddingRight = `${scrollBarWidth}px`;
+  }
+}
+
+function enableBodyScroll() {
+  document.body.classList.remove('modal-open');
+  document.body.style.paddingRight = '';
+}
+
 // Responsible for generating modal containing info on selected item
 function displayModal(item) {
     const modalBg = document.getElementById('modalBg');
     const modal = document.getElementById('galleryModal');
     const modalContent = document.getElementById('modalContent');
+    disableBodyScroll();
     modalContent.innerHTML = '';
     // Adds modal close button & event listener
     closeModalBtn = document.createElement('button');
@@ -91,9 +109,9 @@ function displayModal(item) {
         modal.style.display = 'none';
         modalBg.style.display = 'none';
         modalContent.innerHTML = '';
+        enableBodyScroll();
     })
     modalContent.appendChild(closeModalBtn);
-    console.log(item);
     // Adds image/iframe to modal content
     if (item.querySelector('img') !== null) {
         const image = document.createElement('img');
@@ -124,6 +142,16 @@ function displayModal(item) {
     modal.style.display = 'flex';
     modal.style.direction = 'column';
     modalBg.style.display = 'flex';
+    // Lastly adds click event listener to greyed-out background for closing modal
+    document.getElementById('modalBg').addEventListener('click', function (event) {
+        if (!modal.contains(event.target)) {
+            // Clicked outside modal → close
+            modal.style.display = 'none';
+            this.style.display = 'none';
+            enableBodyScroll();
+        }
+    });
+    modalContent.scrollTop = 0;
 }
 
 // Displays space fact to screen

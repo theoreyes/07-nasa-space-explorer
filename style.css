@@ -12,6 +12,10 @@ body {
   padding: 20px;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 /* Centered container */
 .default-container {
   max-width: 1200px;
@@ -160,8 +164,8 @@ button:hover {
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
-  width: 86vw;
-  height: 80vh;
+  width: 86%;
+  height: 80%;
   overflow: auto;
 }
 
