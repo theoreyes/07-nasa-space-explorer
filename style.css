@@ -115,7 +115,6 @@ button:hover {
   cursor: pointer;
 }
 
-
 .gallery-item img {
   width: 100%;
   height: 200px;
@@ -174,10 +173,6 @@ button:hover {
   overflow: auto;
 }
 
-#galleryModal::-webkit-scrollbar {
-  width: 10px;
-}
-
 #galleryModal iframe {
   aspect-ratio: 16 / 9;
 }
@@ -202,21 +197,30 @@ iframe {
 }
 
 #closeModalBtn {
-  position: absolute;
-  top: 2%;
-  right: 5%;
+  opacity: 90%;
+  position: sticky;
   font-size: 1.2em;
+  float: right;
+  top: 5px;
+  margin-right: 20px;
   color: #666;
   border-radius: 50%;
   padding: 6px 12px;
   width: auto;
   background-color: #f2f2f2;
+  z-index: 5;
 }
 
 #closeModalBtn:hover {
   background-color: #d3d3d3;
 }
 
+#modalContent {
+  position: relative;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #AAA #f1f1f1;
+}
 
 /* Three columns on wider screens */
 @media (min-width: 1000px) {
